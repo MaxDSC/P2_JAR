@@ -107,3 +107,55 @@ P2_JAR
 ***Дополнить класс Functions.java методом отрисовки так, чтобы он отрисовывал в терминале графики рассчитываемых функций при помощи символа "*". Масштаб по оси абсцисс — 42 отсечки, масштаб оси ординат — 21. Расположение и поворот координатых осей не принципиальны. ==***
 
 ## <a name="3"></a> 3. Ход работы
+
+- Склонировал чистый проект P2_JAR командой `git clone`
+- Перед началом работы создал ветку develop командой `git branch develop`, затем переключился на нее командой `git checkout develop`, проверил нахожусь ли я там командой `git branch -a`
+- Каждый квест будет располагаться в разных package, в каждом package есть `package-info.java`, в котором описана задача, которую этот пакет выполняет. Внутри пакета maxdsc.quest расположил класс Main.java, в котором выполняются все квесты - таким образом, чтобы метод main использовал нужные классы и решал нужную задачу в зависимости от переданного аргумента `String[] args`, где число 1 - это первый квест, число 2 - второй квест и так далее.
+- Файлы .java создавал командой `touch` внутри пакетов при помощи следующих команд:
+```
+touch src/main/java/maxdsc/quests/Main.java
+mkdir src/main/java/maxdsc/quests/divider
+touch src/main/java/maxdsc/quests/divider/Divider.java
+touch src/main/java/maxdsc/quests/divider/package-info.java
+```
+- Для создания JAR-архивов придерживался [официальной документации.](https://docs.oracle.com/javase/tutorial/deployment/jar/build.html)
+
+Для создания jar нужно ввести команду `jar cf jar-file input-file(s)`, где с - это указание, что мы создаем jar-архив, f - это указание вывода в файл
+
+Для запуска необходимо указать главный класс - точку входа в программу, согласно [руководству](https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html). Для этого надо создать файл манифеста в котором будет строка `Main-Class: MyPackage.MyClass`. Но можно создать архив и без файла манифеста с помощью флага `e`, например командой, `jar cfe target/P2_JAR Main target/Main.class`
+
+При создании jar-архива нужно быть внимательным к указанию путей до главного класса. Например, если для создания архива была использована команда `jar cfm target/P2_JAR.jar Manifest.txt ~/my_java_projects/P2_JAR/target`, которая рекурсивно добавляет все папки и файлы `.class` из папки `target`, то для запуска программы файл `Manifest.txt` должен выглядеть так:
+```
+Manifest-Version: 1.0
+Main-Class: maxdsc.quests.Main
+class-path: home/maxik/my_java_projects/P2_JAR/target/
+```
+Данная команда сохраняет абсолютный путь до всех папок и файлов, что видно если запустить команду `jar tf P2_JAR`, вот её вывод:
+```
+META-INF/
+META-INF/MANIFEST.MF
+home/maxik/my_java_projects/P2_JAR/target/
+home/maxik/my_java_projects/P2_JAR/target/maxdsc/
+home/maxik/my_java_projects/P2_JAR/target/maxdsc/quests/
+home/maxik/my_java_projects/P2_JAR/target/maxdsc/quests/Main.class
+```
+Если упустить фрагмент `class-path`, то команда `java -jar target/P2_JAR` не найдет главный класс, так как путь будет не полный.
+Этого можно избежать используя относительные пути, что рекомендуется использовать в большинстве случаев. Для этого нужно использовать команду `jar cfm target/P2_JAR.jar Manifest.txt -С ~/my_java_projects/P2_JAR/target .`
+где точка (.) означает обрезать путь начиная с target, то есть структура архива будет выглядеть так (jar tf P2_JAR):
+```
+META-INF/
+META-INF/MANIFEST.MF
+maxdsc/
+maxdsc/quests/
+maxdsc/quests/Main.class
+```
+Таким образом, мы можем взаимодействовать с классами внутри архива как с пакетами внутри проекта, что удобнее, а файл манифеста избавится от строчки class-path и будет выглядеть так:
+```
+Manifest-Version: 1.0
+Main-Class: maxdsc.quests.Main
+```
+
+Чтобы запустить программу использую команду `java -jar target/P2_JAR.jar`
+
+- Добавил команды описанные выше в *Makefile* для компиляции классов `.class` и сборки в JAR
+
