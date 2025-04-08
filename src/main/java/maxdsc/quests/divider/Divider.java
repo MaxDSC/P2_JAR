@@ -28,7 +28,7 @@ public class Divider {
   /**
    * Находит наибольший делитель от числа.
    *
-   * @param num - число, от нужно найти наибольший делитель.
+   * @param num - число, от которого нужно найти наибольший делитель.
    */
   private int findLargestDivisor(int num) {
     int middle = num / 2;

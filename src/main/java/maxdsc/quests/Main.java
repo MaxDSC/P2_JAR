@@ -2,6 +2,7 @@ package maxdsc.quests;
 
 import java.util.Scanner;
 import maxdsc.quests.divider.Divider;
+import maxdsc.quests.encrypt.Decode;
 
 /** Start programm. */
 public final class Main {
@@ -16,9 +17,10 @@ public final class Main {
    * @param args - Аргументы командной строки.
    */
   public static void main(final String[] args) {
+    Scanner input = new Scanner(System.in);
+
     if (args.length == 1) {
       String arg = args[0];
-      Scanner input = new Scanner(System.in);
       boolean err = false;
       if (arg.equals("1")) {
         if (input.hasNextInt()) {
@@ -30,6 +32,17 @@ public final class Main {
         }
 
       } else if (arg.equals("2")) {
+
+        String mode = input.nextLine();
+        String line = input.nextLine();
+        Decode encryprtStr = new Decode(line);
+        if (mode.equals("0")) {
+          encryprtStr.encode();
+        } else if (mode.equals("1")) {
+          encryprtStr.decode();
+        } else {
+          err = true;
+        }
 
       } else if (arg.equals("3")) {
 

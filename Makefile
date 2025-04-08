@@ -15,10 +15,10 @@ check:
 format:
 	java -jar $(LIB)/google-java-format-1.25.2-all-deps.jar -i $$(find $(SRC) -name "*.java")
 
-q1: compile_q1
+q: compile_q
 	jar cfm $(TRG)/P2_JAR.jar Manifest.txt -C $(TRG) .
 
-compile_q1:
+compile_q:
 	javac -Werror -d $(TRG) -sourcepath $(SRC) $(SRC)/$(Q)/Main.java
 
 clean:
