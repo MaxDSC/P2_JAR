@@ -3,6 +3,7 @@ package maxdsc.quests;
 import java.util.Scanner;
 import maxdsc.quests.divider.Divider;
 import maxdsc.quests.encrypt.Decode;
+import maxdsc.quests.fibonacci.Fibonacci;
 
 /** Start programm. */
 public final class Main {
@@ -14,7 +15,8 @@ public final class Main {
   /**
    * Запускает программу.
    *
-   * @param args - Аргументы командной строки.
+   * @param args - Аргументы командной строки от команды java, могут быть от 1 до 5. Каждый аргумент
+   *     выполняет определенный квест.
    */
   public static void main(final String[] args) {
     Scanner input = new Scanner(System.in);
@@ -45,6 +47,14 @@ public final class Main {
         }
 
       } else if (arg.equals("3")) {
+
+        if (input.hasNextInt()) {
+          int n = input.nextInt();
+          Fibonacci fib = new Fibonacci(n);
+          fib.printResultToConsole();
+        } else {
+          err = true;
+        }
 
       } else if (arg.equals("4")) {
 
