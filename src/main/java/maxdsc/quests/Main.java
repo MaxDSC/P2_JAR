@@ -4,6 +4,7 @@ import java.util.Scanner;
 import maxdsc.quests.divider.Divider;
 import maxdsc.quests.encrypt.Decode;
 import maxdsc.quests.fibonacci.Fibonacci;
+import maxdsc.quests.func.Functions;
 
 /** Start programm. */
 public final class Main {
@@ -57,6 +58,9 @@ public final class Main {
         }
 
       } else if (arg.equals("4")) {
+
+        Functions func = new Functions();
+        func.printTablesToConsole();
 
       } else if (arg.equals("5")) {
 
