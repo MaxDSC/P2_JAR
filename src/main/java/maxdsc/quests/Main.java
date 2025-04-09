@@ -64,6 +64,9 @@ public final class Main {
 
       } else if (arg.equals("5")) {
 
+        Functions func = new Functions();
+        func.printAllGraphToConsole();
+
       } else {
         System.out.println("QUEST not found");
       }
